@@ -170,25 +170,18 @@ void affiche_reseau(Reseau *reseau) {
     }
 }
 
-void calcul_poids(Reseau *reseau) {
-    int x, y, n;
-    int poids;
-    for (x = 0; x < reseau->nombreNeurone; x++) {
-        for (y = 0; y < reseau->nombreNeurone; y++) {
-            poids = 0;
-            if (y != x) {
-                for (n = 0; n < reseau->entree->nombre_motifs; n++) {
-                    poids += reseau->entree->motifs[n][x] * reseau->entree->motifs[n][y];
-                }
-            }
-            reseau->poids[x][y] = poids;
-        }
-    }
-
-}
-
+void calcul_noeud(struct Reseau * reseau)
 int iteration_suivante(struct Reseau * reseau, int indice)
 {
+	int n, x, y, tmp;
+	for (n = 0; n < reseau->nombreNeurone; n++) {
+		for (x = 0; x < TAILLE_IMAGE; x++){
+			for (y = 0; y < TAILLE_IMAGE; y++) {
+					tmp += reseau->entree->motifs[n][x] * reseau->poids[n][y];
+			}
+		}
+		reseau->sortie[n] = seuil(tmp);
+		printf("Sortie du noeud n°%d : %d\n", reseau->sortie);
 	int j,somme,resu, sortie, changer= 0;
 
 	//Pour chaque neurone
@@ -197,7 +190,14 @@ int iteration_suivante(struct Reseau * reseau, int indice)
 		resu = reseau->poids[indice][j] * reseau->sortie[j];
 		somme = somme + resu; 
 	}
+}
 
+int seuil(int tmp){
+	if(tmp > 0){
+		return 1;
+	}else{
+		return -1;
+	}
 	//Seuillage
 	if(somme > 0){
 		sortie = 1;
@@ -216,6 +216,10 @@ int iteration_suivante(struct Reseau * reseau, int indice)
 	}
 
 	return changer;
+
+}
+
+void apprentissage(struct Reseau * reseau){
 
 }
 
