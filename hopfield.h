@@ -36,6 +36,4 @@ void calcul_poids(struct Reseau * reseau);//alex
 
 void set_entree(struct Reseau * reseau, struct Entree * entree);//guillaume
 
-void get_sortie(struct Reseau * reseau, int * sortie);//alex
-
 void iteration_suivante(struct Reseau * reseau, int indice);//marion

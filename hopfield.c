@@ -2,7 +2,7 @@
 
 int initialise_entree(struct Entree * entree, int nombre_motifs)
 {
-	int i;	
+	int i;
 	entree->motifs = (int**)malloc(sizeof(int*)*nombre_motifs);
 	for(i = 0; i < nombre_motifs ; i++)
 	{
@@ -12,7 +12,7 @@ int initialise_entree(struct Entree * entree, int nombre_motifs)
 	entree->hauteur_image = HAUTEUR_IMAGE;
 	entree->largeur_image = LARGEUR_IMAGE;
 	entree->nombre_motifs = nombre_motifs;
-	
+
 	return 0;
 }
 
@@ -20,20 +20,20 @@ int initialise_reseau(struct Reseau * reseau, struct Entree * entree)
 {
 	int i;
 	reseau->nombreNeurone = TAILLE_IMAGE;
-	reseau->entree = entree;	
+	reseau->entree = entree;
 	reseau->poids = (int**)calloc(TAILLE_IMAGE, sizeof(int*));
 	reseau->seuil = (int*)calloc(TAILLE_IMAGE, sizeof(int));
-	for (i = 0; i < TAILLE_IMAGE ; i++) 
+	for (i = 0; i < TAILLE_IMAGE ; i++)
 	{
 		reseau->seuil[i] = 0;
         reseau->poids[i] = (int*)calloc(TAILLE_IMAGE, sizeof(int));
     }
     reseau->sortie = (int*)calloc(TAILLE_IMAGE, sizeof(int));
-   
-   return 0; 
+
+   return 0;
 }
 
-void conversion_binaire(Entree * entree)
+void conversion_binaire(struct Entree * entree)
 {
 	int n, x, y;
 
