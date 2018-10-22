@@ -97,25 +97,34 @@ void calcul_poids(struct Reseau * reseau)
 
 }
 
-void iteration_suivante(struct Reseau * reseau, int indice)
+int iteration_suivante(struct Reseau * reseau, int indice)
 {
-	int j,x,somme,resu = 0;
+	int j,somme,resu, sortie, changer= 0;
 
-	//Pour chaque motif
-	for(j = 0; j < reseau->entree->nombre_motifs; j++) {
-		//Pour chaque neurone dans un motif
-		for(x = 0; x < reseau.nombreNeurone; x++){
-
-			resu = reseau->poids[indice][j] * reseau->sortie[j];
-			somme = somme + resu; 
-		}
-
-		if(somme >= 0){
-			reseau->sortie[j] = 1;
-		} 
-		else if (somme < 0){
-			reseau->sortie[i] = -1;
-		} 
-
+	//Pour chaque neurone
+	for(j = 0; j < reseau.nombreNeurone; j++){
+		//Calcul de l'entrée pondérée
+		resu = reseau->poids[indice][j] * reseau->sortie[j];
+		somme = somme + resu; 
 	}
+
+	//Seuillage
+	if(somme > 0){
+		sortie = 1;
+	} 
+	else if (somme < 0){
+		sortie =  -1;
+	}
+	//Si l'entrée pondérée = 0, la sortie ne change pas;
+	else if(somme == 0){
+		sortie = reseau->sortie[indice];
+	} 
+	
+	if(reseau->sortie[indice] != sortie){
+		reseau->sortie[indice] = sortie;
+		changer = 1;
+	}
+
+	return changer;
+
 }
