@@ -1,7 +1,7 @@
 #include "hopfield.h"
 
 const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-        {{"    00    ",
+        {{			 "    00    ",
                  "   0000   ",
                  "  00  00  ",
                  "  0    0  ",
@@ -98,12 +98,10 @@ const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
 
 int initialise_entree(Entree *entree, int nombre_motifs) {
     int i;
-    entree = (Entree *) malloc(sizeof(Entree));
     entree->motifs = (int **) malloc(sizeof(int *) * nombre_motifs);
     for (i = 0; i < nombre_motifs; i++) {
         entree->motifs[i] = (int *) calloc(TAILLE_IMAGE, sizeof(int));
     }
-
     entree->hauteur_image = HAUTEUR_IMAGE;
     entree->largeur_image = LARGEUR_IMAGE;
     entree->nombre_motifs = nombre_motifs;
@@ -126,7 +124,7 @@ int initialise_reseau(Reseau *reseau, Entree *entree) {
     return 0;
 }
 
-void conversion_binaire(Entree *entree) {
+void conversion_binaire(Entree * entree) {
     int n, x, y;
 
     for (n = 0; n < entree->nombre_motifs; n++) {
@@ -134,15 +132,15 @@ void conversion_binaire(Entree *entree) {
             for (y = 0; y < entree->hauteur_image; y++) {
                 switch (motifApprendre[n][x][y]) {
                     case ' ':
-                        entree->motifs[n][x * LARGEUR_IMAGE + y] = -1;
+                        entree->motifs[n][x] = -1;
                         break;
 
                     case '0':
-                        entree->motifs[n][x * LARGEUR_IMAGE + y] = 1;
+                        entree->motifs[n][x ] = 1;
                         break;
 
                     default:
-                        entree->motifs[n][x * LARGEUR_IMAGE + y] = -1;
+                        entree->motifs[n][x ] = -1;
                         break;
                 }
             }
@@ -215,7 +213,7 @@ int iteration_suivante(Reseau * reseau, int indice)
 }
 
 int seuil(int tmp){
-	if(tmp > 0){
+	if(tmp >= 0){
 		return 1;
 	}else{
 		return -1;
