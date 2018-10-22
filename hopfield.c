@@ -171,7 +171,6 @@ void affiche_reseau(Reseau *reseau) {
 }
 
 void calcul_noeud(struct Reseau * reseau)
-int iteration_suivante(struct Reseau * reseau, int indice)
 {
 	int n, x, y, tmp;
 	for (n = 0; n < reseau->nombreNeurone; n++) {
@@ -181,15 +180,38 @@ int iteration_suivante(struct Reseau * reseau, int indice)
 			}
 		}
 		reseau->sortie[n] = seuil(tmp);
-		printf("Sortie du noeud n°%d : %d\n", reseau->sortie);
+		printf("Sortie du noeud n°%d : %d\n", n, reseau->sortie[n]);
+	}
+}
+
+int iteration_suivante(Reseau * reseau, int indice)
+{
 	int j,somme,resu, sortie, changer= 0;
 
 	//Pour chaque neurone
-	for(j = 0; j < reseau.nombreNeurone; j++){
+	for(j = 0; j < reseau->nombreNeurone; j++){
 		//Calcul de l'entrée pondérée
 		resu = reseau->poids[indice][j] * reseau->sortie[j];
-		somme = somme + resu; 
+		somme = somme + resu;
 	}
+	//Seuillage
+	if(somme > 0){
+		sortie = 1;
+	}
+	else if (somme < 0){
+		sortie =  -1;
+	}
+	//Si l'entrée pondérée = 0, la sortie ne change pas;
+	else if(somme == 0){
+		sortie = reseau->sortie[indice];
+	}
+
+	if(reseau->sortie[indice] != sortie){
+		reseau->sortie[indice] = sortie;
+		changer = 1;
+	}
+
+	return changer;
 }
 
 int seuil(int tmp){
@@ -198,35 +220,12 @@ int seuil(int tmp){
 	}else{
 		return -1;
 	}
-	//Seuillage
-	if(somme > 0){
-		sortie = 1;
-	} 
-	else if (somme < 0){
-		sortie =  -1;
-	}
-	//Si l'entrée pondérée = 0, la sortie ne change pas;
-	else if(somme == 0){
-		sortie = reseau->sortie[indice];
-	} 
-	
-	if(reseau->sortie[indice] != sortie){
-		reseau->sortie[indice] = sortie;
-		changer = 1;
-	}
-
-	return changer;
-
 }
 
-void apprentissage(struct Reseau * reseau){
+void apprentissage(Reseau * reseau){
 
 }
 
 void set_entree(Reseau *reseau, Entree *nouvelleEntree) {
 
-}
-
-int entraine_reseau(Reseau *reseau) {
-    return 0;
 }

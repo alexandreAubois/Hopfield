@@ -39,24 +39,23 @@ int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
 int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
-int entraine_reseau(Reseau * reseau);//guillaume
-
 int seuil(int tmp);
 void affiche_reseau(Reseau * reseau);//guilaume
 
-void apprentissage(struct Reseau * reseau);
+void apprentissage(Reseau * reseau);
+
 void conversion_binaire(Entree * entree);//alex
 
 void calcul_poids(Reseau * reseau);//alex
 
-void iteration_suivante(Reseau * reseau, int indice);//marion
+int iteration_suivante(Reseau * reseau, int indice);//marion
 
 void set_entree(Reseau * reseau, Entree * nouvelleEntree);
 
-void conversion_binaire(struct Entree * entree);//alex
+void conversion_binaire(Entree * entree);//alex
 
-void calcul_noeud(struct Reseau * reseau);//alex
+void calcul_noeud(Reseau * reseau);//alex
 
-int iteration_suivante(struct Reseau * reseau, int indice);//marion
+int iteration_suivante(Reseau * reseau, int indice);//marion
 
 #endif
