@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "hopfield.h"
 #include <time.h>
 
 int main(void)
