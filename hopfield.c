@@ -103,3 +103,11 @@ void iteration_suivante(struct Reseau * reseau, int indice)
 	
 
 }
+
+void set_entree(struct Reseau * reseau, struct Entree * nouvelleEntree)
+{
+	int i;
+	for (i=0; i<reseau->nombreNeurone; i++) {
+		reseau->sortie[i] = nouvelleEntree->;
+	}
+}
