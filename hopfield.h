@@ -1,7 +1,11 @@
+#ifndef HOPFIELD_H
+#define HOPFIELD_H
+
 #define LARGEUR_IMAGE 10
 #define HAUTEUR_IMAGE 10
 #define NB_MOTIF 4
 #include <stdlib.h>
+#include <stdio.h>
 
 #define TAILLE_IMAGE LARGEUR_IMAGE*HAUTEUR_IMAGE
 
@@ -12,7 +16,7 @@ typedef struct Entree
 	int hauteur_image;
 	int nombre_motifs;
 
-} entree;
+} Entree;
 
 typedef struct Reseau
 {
@@ -21,117 +25,30 @@ typedef struct Reseau
 		int * seuil;
 		int * sortie;
 		int nombreNeurone;
-} reseau;
+} Reseau;
 
 /*Motif à apprendre */
-char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-{{"    00    ",
-  "   0000   ",
-  "  00  00  ",
-  "  0    0  ",
-  " 00    00 ",
-  " 00000000 ",
-  " 00000000 ",
-  " 00    00 ",
-  " 00    00 ",
-  " 00    00 "},
-
- {"0000000000",
-  "0000000000",
-  "00      00",
-  "00        ",
-  "00        ",
-  "00    0000",
-  "00      00",
-  "00      00",
-  "0000000000",
-  "0000000000"},
-
- {"00      00",
-  "000    000",
-  "000    000",
-  "0000  0000",
-  "0000000000",
-  "000 00 000",
-  "000    000",
-  "000    000",
-  "000    000",
-  "000    000"},
-
-
- {"  00   00 ",
-  " 0000 0000",
-  " 000000000",
-  " 000000000",
-  " 000000000",
-  "  0000000 ",
-  "  0000000 ",
-  "   00000  ",
-  "    000   ",
-  "     0    ",
-}};
+extern const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE];
 
 /*Motif à reconnaitre */
-
-char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-{{"  00      ",
-  "   000    ",
-  "  00  00  ",
-  "   0    0 ",
-  " 00     00",
-  " 00000000 ",
-  "  00000000",
-  " 00    00 ",
-  " 00    000",
-  "000    00 "},
-
- {" 00000000 ",
-  "0000000000",
-  "00      00",
-  "000       ",
-  "00000     ",
-  "00  000000",
-  "00     000",
-  "0       00",
-  "0000000000",
-  " 00000000 "},
-
- {"00      00",
-  "0000000000",
-  "000    000",
-  "0000  0000",
-  "0000000000",
-  "000    000",
-  "000    000",
-  "0000000000",
-  "000    000",
-  " 000  000 "},
-
-
- {"00   00   ",
-  " 0000 0000",
-  " 000000000",
-  " 000000000",
-  " 0000  000",
-  "  0000000 ",
-  "  0000000 ",
-  "   00000  ",
-  "      000 ",
-  "     0    ",
-}};
+extern const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE];
 
 
 
-int initialise_entree(struct Entree * entree, int nombre_motifs);//guillaume
+int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
-int initialise_reseau(struct Reseau * reseau, struct Entree * entree);//guillaume
+int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
-void affiche_reseau(struct Reseau * reseau);//guilaume
+int entraine_reseau(Reseau * reseau);//guillaume
 
-void conversion_binaire(struct Entree * entree);//alex
+void affiche_reseau(Reseau * reseau);//guilaume
 
-void calcul_poids(struct Reseau * reseau);//alex
+void conversion_binaire(Entree * entree);//alex
 
-void iteration_suivante(struct Reseau * reseau, int indice);//marion
+void calcul_poids(Reseau * reseau);//alex
 
-void set_entree(struct Reseau * reseau, struct Entree * nouvelleEntree);
+void iteration_suivante(Reseau * reseau, int indice);//marion
+
+void set_entree(Reseau * reseau, Entree * nouvelleEntree);
+
+#endif
