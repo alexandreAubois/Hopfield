@@ -21,18 +21,18 @@ typedef struct Reseau
 		int * etatNeurones;
 } reseau;
 
-int initialise_entree(Entree * entree, int nombre_motifs);
+int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
-int initialise_reseau(Reseau * reseau, Entree * entree);
+int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
-void affiche_reseau(Reseau * reseau);
+void affiche_reseau(Reseau * reseau);//guilaume
 
-void convertion_binaire(Reseau * reseau);
+void conversion_binaire(Reseau * reseau);//alex
 
-void calcul_poids(Reseau * reseau);
+void calcul_poids(Reseau * reseau);//alex
 
-void set_entree(Reseau * reseau, Entree * entree);
+void set_entree(Reseau * reseau, Entree * entree);//guillaume
 
-void get_sortie(Reseau * reseau, int * sortie);
+void get_sortie(Reseau * reseau, int * sortie);//alex
 
-void iteration_suivante(Reseau * reseau, int indice);
+void iteration_suivante(Reseau * reseau, int indice);//marion
