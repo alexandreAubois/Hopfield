@@ -99,7 +99,23 @@ void calcul_poids(struct Reseau * reseau)
 
 void iteration_suivante(struct Reseau * reseau, int indice)
 {
- 
-	
+	int j,x,somme,resu = 0;
 
+	//Pour chaque motif
+	for(j = 0; j < reseau->entree->nombre_motifs; j++) {
+		//Pour chaque neurone dans un motif
+		for(x = 0; x < reseau.nombreNeurone; x++){
+
+			resu = reseau->poids[indice][j] * reseau->sortie[j];
+			somme = somme + resu; 
+		}
+
+		if(somme >= 0){
+			reseau->sortie[j] = 1;
+		} 
+		else if (somme < 0){
+			reseau->sortie[i] = -1;
+		} 
+
+	}
 }
