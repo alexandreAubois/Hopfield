@@ -5,10 +5,10 @@
 
 typedef struct Entree
 {
-	int ** motif;
+	int ** motifs;
 	int largeur_image;
 	int hauteur_image;
-	int nombre_motif;
+	int nombre_motifs;
 
 } entree;
 
@@ -16,9 +16,9 @@ typedef struct Reseau
 {
 		struct Entree * entree;
 		int ** poids;
-		int ** sortie;
+		int * seuil;
+		int * sortie;
 		int nombreNeurone;
-		int * etatNeurones;
 } reseau;
 
 int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
