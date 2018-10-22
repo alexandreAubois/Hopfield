@@ -37,20 +37,20 @@ void conversion_binaire(struct Entree * entree)
 {
 	int n, x, y;
 
-	for (n = 0; n < entree->nombre_motif; n++) {
+	for (n = 0; n < entree->nombre_motifs; n++) {
 		for (x = 0; x < entree->largeur_image; x++) {
 			for (y = 0; y < entree->hauteur_image; y++) {
-				switch (MOTIF[n][x][y]) {
-					case " ":
-					entree->motif[n][x*LARGEUR_IMAGE+y] = -1;
+				switch (entree->motifs[n*x][y]) {
+					case ' ':
+					entree->motifs[n][x*LARGEUR_IMAGE+y] = -1;
 					break;
 
-					case "0":
-					entree->motif[n][x*LARGEUR_IMAGE+y] = 1;
+					case '0':
+					entree->motifs[n][x*LARGEUR_IMAGE+y] = 1;
 					break;
 
 					default:
-					entree->motif[n][x*LARGEUR_IMAGE+y] = -1;
+					entree->motifs[n][x*LARGEUR_IMAGE+y] = -1;
 					break;
 				}
 			}
@@ -73,10 +73,11 @@ void affiche_reseau(struct Reseau * reseau)
 				case 1:
 					printf(" ");
 					break;
-		}
+			}
 		printf("\n");
-	}
+		}
 	printf("\n");
+	}
 }
 
 void calcul_poids(struct Reseau * reseau)
@@ -87,8 +88,8 @@ void calcul_poids(struct Reseau * reseau)
 		for (y = 0; y < reseau->nombreNeurone; y++) {
 				poids=0;
 				if(y != x){
-					for ( n = 0; n < reseau->entree->nombre_motif; n++) {
-						poids += reseau->entree->motif[n][x] * reseau->entree->motif[n][y];
+					for ( n = 0; n < reseau->entree->nombre_motifs; n++) {
+						poids += reseau->entree->motifs[n][x] * reseau->entree->motifs[n][y];
 					}
 				}
 				reseau->poids[x][y] = poids;
@@ -102,7 +103,7 @@ int iteration_suivante(struct Reseau * reseau, int indice)
 	int j,somme,resu, sortie, changer= 0;
 
 	//Pour chaque neurone
-	for(j = 0; j < reseau.nombreNeurone; j++){
+	for(j = 0; j < reseau->nombreNeurone; j++){
 		//Calcul de l'entrée pondérée
 		resu = reseau->poids[indice][j] * reseau->sortie[j];
 		somme = somme + resu; 

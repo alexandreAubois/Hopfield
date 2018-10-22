@@ -2,6 +2,7 @@
 #define HAUTEUR_IMAGE 10
 #define NB_MOTIF 4
 #include <stdlib.h>
+#include <stdio.h>
 
 #define TAILLE_IMAGE LARGEUR_IMAGE*HAUTEUR_IMAGE
 
