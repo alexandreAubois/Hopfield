@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #define LARGEUR_IMAGE 20
 #define HAUTEUR_IMAGE 20
 
@@ -21,18 +23,18 @@ typedef struct Reseau
 		int nombreNeurone;
 } reseau;
 
-int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
+int initialise_entree(struct Entree * entree, int nombre_motifs);//guillaume
 
-int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
+int initialise_reseau(struct Reseau * reseau, struct Entree * entree);//guillaume
 
-void affiche_reseau(Reseau * reseau);//guilaume
+void affiche_reseau(struct Reseau * reseau);//guilaume
 
-void conversion_binaire(Reseau * reseau);//alex
+void conversion_binaire(struct Entree * entree);//alex
 
-void calcul_poids(Reseau * reseau);//alex
+void calcul_poids(struct Reseau * reseau);//alex
 
-void set_entree(Reseau * reseau, Entree * entree);//guillaume
+void set_entree(struct Reseau * reseau, struct Entree * entree);//guillaume
 
-void get_sortie(Reseau * reseau, int * sortie);//alex
+void get_sortie(struct Reseau * reseau, int * sortie);//alex
 
-void iteration_suivante(Reseau * reseau, int indice);//marion
+void iteration_suivante(struct Reseau * reseau, int indice);//marion
