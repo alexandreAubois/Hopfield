@@ -58,3 +58,23 @@ void conversion_binaire(struct Entree * entree)
 	}
 
 }
+
+void affiche_reseau(struct Reseau * reseau)
+{
+	int i,j;
+
+	for (i=0; i<reseau->entree->largeur_image; i++) {
+		for (j=0; j<reseau->entree->hauteur_image; j++) {
+			switch (reseau->sortie[i*LARGEUR_IMAGE+j])
+			{
+				case -1:
+					printf("O");
+					break;
+				case 1:
+					printf(" ");
+					break;
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
