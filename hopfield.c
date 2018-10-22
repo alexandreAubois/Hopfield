@@ -79,6 +79,24 @@ void affiche_reseau(struct Reseau * reseau)
 	printf("\n");
 }
 
+void calcul_poids(struct Reseau * reseau)
+{
+	int x, y, n;
+	int poids;
+	for (x = 0; x < reseau->nombreNeurone; x++) {
+		for (y = 0; y < reseau->nombreNeurone; y++) {
+				poids=0;
+				if(y != x){
+					for ( n = 0; n < reseau->entree->nombre_motif; n++) {
+						poids += reseau->entree->motif[n][x] * reseau->entree->motif[n][y];
+					}
+				}
+				reseau->poids[x][y] = poids;
+		}
+	}
+
+}
+
 void iteration_suivante(struct Reseau * reseau, int indice)
 {
  

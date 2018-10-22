@@ -132,6 +132,4 @@ void conversion_binaire(struct Entree * entree);//alex
 
 void calcul_poids(struct Reseau * reseau);//alex
 
-void set_entree(struct Reseau * reseau, struct Entree * entree);//guillaume
-
 void iteration_suivante(struct Reseau * reseau, int indice);//marion
