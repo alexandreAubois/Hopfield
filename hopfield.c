@@ -78,3 +78,10 @@ void affiche_reseau(struct Reseau * reseau)
 	}
 	printf("\n");
 }
+
+void iteration_suivante(struct Reseau * reseau, int indice)
+{
+ 
+	
+
+}
