@@ -41,11 +41,11 @@ void conversion_binaire(struct Entree * entree)
 		for (x = 0; x < entree->largeur_image; x++) {
 			for (y = 0; y < entree->hauteur_image; y++) {
 				switch (MOTIF[n][x][y]) {
-					case " ":
+					case ' ':
 					entree->motif[n][x*LARGEUR_IMAGE+y] = -1;
 					break;
 
-					case "0":
+					case '0':
 					entree->motif[n][x*LARGEUR_IMAGE+y] = 1;
 					break;
 
@@ -79,20 +79,28 @@ void affiche_reseau(struct Reseau * reseau)
 	printf("\n");
 }
 
-void calcul_poids(struct Reseau * reseau)
+void calcul_noeud(struct Reseau * reseau)
 {
-	int x, y, n;
-	int poids;
-	for (x = 0; x < reseau->nombreNeurone; x++) {
-		for (y = 0; y < reseau->nombreNeurone; y++) {
-				poids=0;
-				if(y != x){
-					for ( n = 0; n < reseau->entree->nombre_motif; n++) {
-						poids += reseau->entree->motif[n][x] * reseau->entree->motif[n][y];
-					}
-				}
-				reseau->poids[x][y] = poids;
+	int n, x, y, tmp;
+	for (n = 0; n < reseau->nombreNeurone; n++) {
+		for (x = 0; x < TAILLE_IMAGE; x++){
+			for (y = 0; y < TAILLE_IMAGE; y++) {
+					tmp += reseau->entree->motifs[n][x] * reseau->poids[n][y];
+			}
 		}
+		reseau->sortie[n] = seuil(tmp);
+		printf("Sortie du noeud n°%d : %d\n", reseau->sortie);
 	}
+}
+
+int seuil(int tmp){
+	if(tmp > 0){
+		return 1;
+	}else{
+		return -1;
+	}
+}
+
+void apprentissage(struct Reseau * reseau){
 
 }

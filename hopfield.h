@@ -120,7 +120,9 @@ char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
   "   0      ",
 }};
 
+int seuil(int tmp);
 
+void apprentissage(struct Reseau * reseau);
 
 int initialise_entree(struct Entree * entree, int nombre_motifs);//guillaume
 
@@ -130,6 +132,6 @@ void affiche_reseau(struct Reseau * reseau);//guilaume
 
 void conversion_binaire(struct Entree * entree);//alex
 
-void calcul_poids(struct Reseau * reseau);//alex
+void calcul_noeud(struct Reseau * reseau);//alex
 
 void iteration_suivante(struct Reseau * reseau, int indice);//marion
