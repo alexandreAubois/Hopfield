@@ -81,7 +81,7 @@ const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "000    000",
                  "0000000000",
                  "000    000",
-                 " 000  000 "},
+                 "000    000"},
 
 
          {"00   00   ",
@@ -182,6 +182,7 @@ void calcul_noeud(struct Reseau * reseau)
 	}
 }
 
+//Implementation de la règle de changement d'état
 int iteration_suivante(Reseau * reseau, int indice)
 {
 	int j,somme,resu, sortie, changer= 0;
@@ -220,9 +221,20 @@ int seuil(int tmp){
 	}
 }
 
-void apprentissage(Reseau * reseau){
+//Modification des poids avec la loi de Hebb
+void apprentissageHebb(Reseau * reseau, int iteration){
+
+int i,j, tmp;
+int vitesse = 0.8;
+
+	for(j=0; j < iteration; j++){
+		for(i=0; i < reseau->nombreNeurone; i++){
+			reseau->poids[i][j] = reseau->poids[i][j] + (vitesse * reseau->entree->motifs[i][j] * reseau->sortie[i]);
+		}
+	}
 
 }
+
 
 void set_entree(Reseau *reseau, Entree *nouvelleEntree) {
 
