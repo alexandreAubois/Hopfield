@@ -6,6 +6,7 @@
 #define NB_MOTIF 4
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #define TAILLE_IMAGE LARGEUR_IMAGE*HAUTEUR_IMAGE
 
@@ -15,15 +16,15 @@ typedef struct Entree
 	int largeur_image;
 	int hauteur_image;
 	int nombre_motifs;
-
+	float ** sortiesDesirees;
 } Entree;
 
 typedef struct Reseau
 {
 		struct Entree * entree;
-		int ** poids;
+		float ** poids;
 		int * seuil;
-		int * sortie;
+		float * sortie;
 		int nombreNeurone;
 } Reseau;
 
@@ -33,29 +34,32 @@ extern const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE];
 /*Motif à reconnaitre */
 extern const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE];
 
+extern const char sortieDesireeAppr[NB_MOTIF][4];
 
+extern const char sortieDesireeTest[NB_MOTIF][4];
+
+float randomFloat();
 
 int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
 int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
-int seuil(int tmp);
+float seuil(float tmp);
+
+float sigmoid(float x);
+
 void affiche_reseau(Reseau * reseau);//guilaume
 
 void apprentissage(Reseau * reseau);
 
-void conversion_binaire(Entree * entree);//alex
+void conversion_binaire(Entree * entree, int appr);//alex
 
 void calcul_poids(Reseau * reseau);//alex
 
-int iteration_suivante(Reseau * reseau, int indice);//marion
-
 void set_entree(Reseau * reseau, Entree * nouvelleEntree);
 
-void conversion_binaire(Entree * entree);//alex
+void calcul_noeud(Reseau * reseau, int motif);//alex
 
-void calcul_noeud(Reseau * reseau);//alex
-
-int iteration_suivante(Reseau * reseau, int indice);//marion
+void apprentissageHebb(Reseau * reseau, int iteration);
 
 #endif
