@@ -29,7 +29,7 @@ int main(void)
 		printf("\n");
 	}
 	getchar();*/
-	apprentissageHebb(reseau, 1000000);
+	apprentissageHebb(reseau, 100000);
 	printf("\n");
 	calcul_noeud(reseau, 0);	
 	printf("\n");

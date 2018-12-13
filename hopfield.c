@@ -1,7 +1,7 @@
 #include "hopfield.h"
 
 const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-        {{			 "    00    ",
+        {{		 "    00    ",
                  "   0000   ",
                  "  00  00  ",
                  "  0    0  ",
@@ -12,7 +12,7 @@ const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  " 00    00 ",
                  " 00    00 "},
 
-         {"0000000000",
+         {		 "0000000000",
                  "0000000000",
                  "00      00",
                  "00        ",
@@ -23,7 +23,7 @@ const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "0000000000",
                  "0000000000"},
 
-         {"00      00",
+         {		 "00      00",
                  "000    000",
                  "000    000",
                  "0000  0000",
@@ -35,7 +35,7 @@ const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "000    000"},
 
 
-         {"  00   00 ",
+         {		 "  00   00 ",
                  " 0000 0000",
                  " 000000000",
                  " 000000000",
@@ -69,7 +69,7 @@ const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  " 00    000",
                  "000    00 "},
 
-         {" 00000000 ",
+         {		 " 00000000 ",
                  "0000000000",
                  "00      00",
                  "000       ",
@@ -80,19 +80,19 @@ const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "0000000000",
                  " 00000000 "},
 
-         {"00      00",
-                 "0000000000",
+         {		 "00      00",
+                 "00000 0000",
                  "000    000",
                  "0000  0000",
                  "0000000000",
                  "000    000",
                  "000    000",
-                 "0000000000",
+                 "00000 0000",
                  "000    000",
                  "000    000"},
 
 
-         {"00   00   ",
+         {		 "00   00   ",
                  " 0000 0000",
                  " 000000000",
                  " 000000000",
@@ -139,10 +139,12 @@ int initialise_reseau(Reseau *reseau, Entree *entree) {
     reseau->nombreNeurone = entree->nombre_motifs;
     reseau->entree = entree;
     reseau->poids = (float **) calloc(entree->nombre_motifs, sizeof(float *));
+    reseau->biais = (float *) calloc(entree->nombre_motifs, sizeof(float *));
     reseau->seuil = (int *) calloc(entree->nombre_motifs, sizeof(int));
     for (i = 0; i < entree->nombre_motifs; i++) {
         reseau->seuil[i] = 0;
         reseau->poids[i] = (float *) calloc(TAILLE_IMAGE, sizeof(float));
+        reseau->biais[i] = randomFloat();
         for(j = 0; j< TAILLE_IMAGE; j++)
 			reseau->poids[i][j] = randomFloat();
     }
@@ -230,9 +232,23 @@ void calcul_noeud(struct Reseau * reseau, int motif)
 		{
 			tmp += (float)reseau->entree->motifs[motif][x] * reseau->poids[n][x];
 		}
+		tmp += reseau->biais[n];
 		reseau->sortie[n] = sigmoid(tmp);
 		printf("Sortie du noeud n°%d : %f  pour l'entree : %d Desire : %f\n", n, reseau->sortie[n], motif, reseau->entree->sortiesDesirees[motif][n]);
 	}
+}
+
+void calcul_noeud_unique(struct Reseau * reseau, int neuronne, int motif)
+{
+	int x;
+	float tmp = 0;
+	for (x = 0; x < TAILLE_IMAGE; x++)
+	{
+		tmp += (float)reseau->entree->motifs[motif][x] * reseau->poids[neuronne][x];
+	}
+	tmp += reseau->biais[neuronne];
+	reseau->sortie[neuronne] = sigmoid(tmp);
+	//printf("Sortie du noeud n°%d : %f  pour l'entree : %d Desire : %f\n", neuronne, reseau->sortie[neuronne], motif, reseau->entree->sortiesDesirees[motif][neuronne]);
 }
 
 float seuil(float tmp){
@@ -265,31 +281,48 @@ float sigmoid(float x)
 //Modification des poids avec la loi de Hebb
 void apprentissageHebb(Reseau * reseau, int iteration)
 {
-
-int index_neuronne,j, index_entree;
-float vitesse = 0.8;
-int index_motif = 0;
-
-	for(j=0; j < iteration; j++){
-		calcul_noeud(reseau, index_motif);
+	int index_neuronne = 0, index_entree = 0;
+	float vitesse = 0.8;
+	int index_motif = 0;
+	int nbIter = 0;
+	float erreur;
+	float erreurGlob = 0;
+	do
+	{
 		for(index_neuronne=0; index_neuronne < reseau->nombreNeurone; index_neuronne++)
 		{
-			if(reseau->sortie[index_neuronne] != reseau->entree->sortiesDesirees[index_motif][index_neuronne])
+			calcul_noeud_unique(reseau, index_neuronne, index_motif);
+			nbIter += 1;
+			erreurGlob = 0;
+			erreur = reseau->entree->sortiesDesirees[index_motif][index_neuronne]-reseau->sortie[index_neuronne];
+			//printf("%f\n", erreur);
+			if( fabs(erreur) > 0.01 )
 			{
 				for(index_entree=0; index_entree < TAILLE_IMAGE; index_entree++)
 				{
 					//printf("Old : %f", reseau->poids[index_neuronne][index_entree]);
-					reseau->poids[index_neuronne][index_entree] = reseau->poids[index_neuronne][index_entree] + (vitesse * reseau->entree->motifs[index_neuronne][index_entree] * reseau->sortie[index_neuronne]);
+					reseau->poids[index_neuronne][index_entree] += (vitesse * reseau->entree->motifs[index_motif][index_entree] * erreur);
 					//printf("New : %f\n", reseau->poids[index_neuronne][index_entree]);
 				}
+				reseau->biais[index_neuronne] += erreur * vitesse;
+				erreurGlob += (erreur * erreur);
+				index_motif += 1;
+				//printf("Motif corrige : %d\n", index_motif);
+				if(index_motif == 4)
+					index_motif = 0;
 			}
-		}
-		index_motif += 1;
-		if(index_motif == 4)
-		{
-			index_motif = 0;
-		}		
-	}
+			else
+			{
+				if(index_neuronne == 3)
+				{
+					index_motif += 1;
+					printf("Motif simple : %d\n", index_motif);
+					if(index_motif == 4)
+						index_motif = 0;
+				}
+			}
+		}	
+	}while(nbIter < iteration);
 }
 
 

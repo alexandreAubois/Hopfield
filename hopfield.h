@@ -24,6 +24,7 @@ typedef struct Reseau
 		struct Entree * entree;
 		float ** poids;
 		int * seuil;
+		float * biais;
 		float * sortie;
 		int nombreNeurone;
 } Reseau;
@@ -59,6 +60,8 @@ void calcul_poids(Reseau * reseau);//alex
 void set_entree(Reseau * reseau, Entree * nouvelleEntree);
 
 void calcul_noeud(Reseau * reseau, int motif);//alex
+
+void calcul_noeud_unique(struct Reseau * reseau, int neuronne, int motif);
 
 void apprentissageHebb(Reseau * reseau, int iteration);
 
