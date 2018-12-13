@@ -1,5 +1,5 @@
-CFLAGS=-Wall 
-LDFLAGS=
+CFLAGS=-Wall
+LDFLAGS=-lm
 
 CC=gcc
 EXE= main
