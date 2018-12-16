@@ -1,38 +1,38 @@
 #include "hopfield.h"
 
 const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-        {{		 "    00    ",
-                 "   0000   ",
-                 "  00  00  ",
+        {{		 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     "},
+
+         {		 "          ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "0000000000",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          "},
+
+         {		 "          ",
+                 "  000000  ",
                  "  0    0  ",
-                 " 00    00 ",
-                 " 00000000 ",
-                 " 00000000 ",
-                 " 00    00 ",
-                 " 00    00 ",
-                 " 00    00 "},
-
-         {		 "0000000000",
-                 "0000000000",
-                 "00      00",
-                 "00        ",
-                 "00        ",
-                 "00    0000",
-                 "00      00",
-                 "00      00",
-                 "0000000000",
-                 "0000000000"},
-
-         {		 "00      00",
-                 "000    000",
-                 "000    000",
-                 "0000  0000",
-                 "0000000000",
-                 "000 00 000",
-                 "000    000",
-                 "000    000",
-                 "000    000",
-                 "000    000"},
+                 "  0    0  ",
+                 "  0    0  ",
+                 "  000000  ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          "},
 
 
          {		 "  00   00 ",
@@ -58,39 +58,38 @@ const char sortieDesireeAppr[NB_MOTIF][4] =
 /*Motif à reconnaitre */
 
 const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
-        {{"  00      ",
-                 "   000    ",
-                 "  00  00  ",
-                 "   0    0 ",
-                 " 00     00",
-                 " 00000000 ",
-                 "  00000000",
-                 " 00    00 ",
-                 " 00    000",
-                 "000    00 "},
+        {{		 "    0     ",
+                 "          ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     ",
+                 "    0     "},
 
-         {		 " 00000000 ",
-                 "0000000000",
-                 "00      00",
-                 "000       ",
-                 "00000     ",
-                 "00  000000",
-                 "00     000",
-                 "0       00",
-                 "0000000000",
-                 " 00000000 "},
+         {		 "          ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "0000 00000",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          "},
 
-         {		 "00      00",
-                 "00000 0000",
-                 "000    000",
-                 "0000  0000",
-                 "0000000000",
-                 "000    000",
-                 "000    000",
-                 "00000 0000",
-                 "000    000",
-                 "000    000"},
-
+         {		 "          ",
+                 "  000000  ",
+                 "  0    0  ",
+                 "  000000  ",
+                 "  0    0  ",
+                 "  000000  ",
+                 "          ",
+                 "          ",
+                 "          ",
+                 "          "},
 
          {		 "00   00   ",
                  " 0000 0000",
@@ -139,7 +138,7 @@ int initialise_reseau(Reseau *reseau, Entree *entree) {
     reseau->nombreNeurone = entree->nombre_motifs;
     reseau->entree = entree;
     reseau->poids = (float **) calloc(entree->nombre_motifs, sizeof(float *));
-    reseau->biais = (float *) calloc(entree->nombre_motifs, sizeof(float *));
+    reseau->biais = (float *) calloc(entree->nombre_motifs, sizeof(float));
     reseau->seuil = (int *) calloc(entree->nombre_motifs, sizeof(int));
     for (i = 0; i < entree->nombre_motifs; i++) {
         reseau->seuil[i] = 0;
@@ -159,17 +158,17 @@ void conversion_binaire(Entree * entree, int appr) {
     for (n = 0; n < entree->nombre_motifs; n++) {
         for (x = 0; x < entree->largeur_image; x++) {
             for (y = 0; y < entree->hauteur_image; y++) {
-				if(appr)
+				if(appr == 1)
 				{
 					switch (motifApprendre[n][x][y]) {
 						case ' ':
 							entree->motifs[n][x] = -1;
 							break;
 						case '0':
-							entree->motifs[n][x ] = 1;
+							entree->motifs[n][x] = 1;
 							break;
 						default:
-							entree->motifs[n][x ] = -1;
+							entree->motifs[n][x] = -1;
 							break;
 					}
 				}
@@ -180,10 +179,10 @@ void conversion_binaire(Entree * entree, int appr) {
 							entree->motifs[n][x] = -1;
 							break;
 						case '0':
-							entree->motifs[n][x ] = 1;
+							entree->motifs[n][x] = 1;
 							break;
 						default:
-							entree->motifs[n][x ] = -1;
+							entree->motifs[n][x] = -1;
 							break;
 					}
 				}
@@ -203,12 +202,12 @@ void conversion_binaire(Entree * entree, int appr) {
 }
 
 void affiche_reseau(Reseau *reseau) {
-   /* int i, j;
-
+   int i, j;
+/*
     for (i = 0; i < reseau->entree->largeur_image; i++) {
         for (j = 0; j < reseau->entree->hauteur_image; j++) {
-            switch (reseau->sortie[i * LARGEUR_IMAGE + j]) {
-                case -1:
+            switch (reseau->entree[i * LARGEUR_IMAGE + j]) {
+                case 0:
                     printf("O");
                     break;
                 case 1:
@@ -282,7 +281,7 @@ float sigmoid(float x)
 void apprentissageHebb(Reseau * reseau, int iteration)
 {
 	int index_neuronne = 0, index_entree = 0;
-	float vitesse = 0.8;
+	float vitesse = 0.5;
 	int index_motif = 0;
 	int nbIter = 0;
 	float erreur;
@@ -296,7 +295,7 @@ void apprentissageHebb(Reseau * reseau, int iteration)
 			erreurGlob = 0;
 			erreur = reseau->entree->sortiesDesirees[index_motif][index_neuronne]-reseau->sortie[index_neuronne];
 			//printf("%f\n", erreur);
-			if( fabs(erreur) > 0.01 )
+			if( fabs(erreur) > 0.2 )
 			{
 				for(index_entree=0; index_entree < TAILLE_IMAGE; index_entree++)
 				{
@@ -327,5 +326,5 @@ void apprentissageHebb(Reseau * reseau, int iteration)
 
 
 void set_entree(Reseau *reseau, Entree *nouvelleEntree) {
-
+	reseau->entree = nouvelleEntree;
 }
