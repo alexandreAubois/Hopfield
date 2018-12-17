@@ -65,4 +65,6 @@ void calcul_noeud_unique(struct Reseau * reseau, int neuronne, int motif);
 
 void apprentissageHebb(Reseau * reseau, int iteration);
 
+
+
 #endif
