@@ -45,9 +45,9 @@ int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
 int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
-void libere_entree(Entree * entree);
+void libere_entree(Entree * entree, int nombre_motifs);
 
-void libere_reseau(Reseau * reseau);
+void libere_reseau(Reseau * reseau, Entree *entree);
 
 float seuil(float tmp);
 

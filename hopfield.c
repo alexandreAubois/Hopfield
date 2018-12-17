@@ -311,10 +311,29 @@ void set_entree(Reseau *reseau, Entree *nouvelleEntree) {
 	reseau->entree = nouvelleEntree;
 }
 
-void libere_entree(Entree * entree){
+void libere_entree(Entree * entree, int nombre_motifs){
+  int i;
+  for (i = 0; i < nombre_motifs; i++) {
+    free(entree->motifs[i]);
+  }
+  free(entree->motifs);
+
+  for (i = 0; i < nombre_motifs; i++) {
+    free(entree->sortiesDesirees[i]);
+  }
+  free(entree->sortiesDesirees);
+
   free(entree);
 }
 
-void libere_reseau(Reseau * reseau){
+void libere_reseau(Reseau * reseau, Entree *entree){
+  for (int i = 0; i < entree->nombre_motifs; i++) {
+    free(reseau->poids[i]);
+  }
+  free(reseau->poids);
+  free(reseau->biais);
+  free(reseau->seuil);
+  free(reseau->sortie);
+
     free(reseau);
 }

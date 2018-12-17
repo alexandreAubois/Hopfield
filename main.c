@@ -50,9 +50,10 @@ int main(void)
 	calcul_noeud(reseau, 3);
 
 	//liberation de l'espace mémoire des structs
-	libere_entree(entreeTest);
-	libere_entree(entree);
-	libere_reseau(reseau);
+	libere_reseau(reseau, entree);
+	libere_entree(entree, NB_MOTIF);
+	libere_entree(entreeTest, NB_MOTIF);
+
 
 	return 0;
 }
