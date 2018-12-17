@@ -18,17 +18,17 @@ int main(void)
 	reseau = (Reseau *) malloc(sizeof(Reseau));
 
 	initialise_reseau(reseau, entree);
-	
+
 	apprentissageHebb(reseau, 1000);
 	printf("\n");
-	calcul_noeud(reseau, 0);	
+	calcul_noeud(reseau, 0);
 	printf("\n");
 	calcul_noeud(reseau, 1);
 	printf("\n");
 	calcul_noeud(reseau, 2);
 	printf("\n");
 	calcul_noeud(reseau, 3);
-	
+
 	Entree * entreeTest = NULL;
 
 	entreeTest = (Entree*) malloc(sizeof(Entree));
@@ -36,18 +36,23 @@ int main(void)
 	initialise_entree(entreeTest, NB_MOTIF);
 
 	conversion_binaire(entreeTest, 0);
-	
+
 	set_entree(reseau, entreeTest);
-	
+
 	printf("\n");
 	printf("\n");
-	calcul_noeud(reseau, 0);	
+	calcul_noeud(reseau, 0);
 	printf("\n");
 	calcul_noeud(reseau, 1);
 	printf("\n");
 	calcul_noeud(reseau, 2);
 	printf("\n");
 	calcul_noeud(reseau, 3);
+
+	//liberation de l'espace mémoire des structs
+	libere_entree(entreeTest);
+	libere_entree(entree);
+	libere_reseau(reseau);
 
 	return 0;
 }

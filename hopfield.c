@@ -47,13 +47,13 @@ const char motifApprendre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "     0    ",
          }};
 
-const char sortieDesireeAppr[NB_MOTIF][4] = 
+const char sortieDesireeAppr[NB_MOTIF][4] =
 {
-	{ 1,0,0,0},	
-	{ 0,1,0,0},	
-	{ 0,0,1,0},	
+	{ 1,0,0,0},
+	{ 0,1,0,0},
+	{ 0,0,1,0},
 	{ 0,0,0,1}
-};	
+};
 
 /*Motif à reconnaitre */
 
@@ -102,15 +102,15 @@ const char motifReconnaitre[NB_MOTIF][LARGEUR_IMAGE][HAUTEUR_IMAGE] =
                  "      000 ",
                  "     0    ",
          }};
-         
-const char sortieDesireeTest[NB_MOTIF][4] = 
+
+const char sortieDesireeTest[NB_MOTIF][4] =
 {
-	{ 1,0,0,0},	
-	{ 0,1,0,0},	
-	{ 0,0,1,0},	
+	{ 1,0,0,0},
+	{ 0,1,0,0},
+	{ 0,0,1,0},
 	{ 0,0,0,1}
 };
-         
+
 float randomFloat()
 {
     return (float)rand() / (float)RAND_MAX;
@@ -201,30 +201,12 @@ void conversion_binaire(Entree * entree, int appr) {
 
 }
 
-void affiche_reseau(Reseau *reseau) {
-   int i, j;
-/*
-    for (i = 0; i < reseau->entree->largeur_image; i++) {
-        for (j = 0; j < reseau->entree->hauteur_image; j++) {
-            switch (reseau->entree[i * LARGEUR_IMAGE + j]) {
-                case 0:
-                    printf("O");
-                    break;
-                case 1:
-                    printf(" ");
-                    break;
-            }
-            printf("\n");
-        }
-        printf("\n");
-    }*/
-}
 
 void calcul_noeud(struct Reseau * reseau, int motif)
 {
 	int n, x;
 	float tmp = 0;
-	for (n = 0; n < reseau->nombreNeurone; n++) 
+	for (n = 0; n < reseau->nombreNeurone; n++)
 	{
 		tmp = 0;
 		for (x = 0; x < TAILLE_IMAGE; x++)
@@ -320,11 +302,19 @@ void apprentissageHebb(Reseau * reseau, int iteration)
 						index_motif = 0;
 				}
 			}
-		}	
+		}
 	}while(nbIter < iteration);
 }
 
 
 void set_entree(Reseau *reseau, Entree *nouvelleEntree) {
 	reseau->entree = nouvelleEntree;
+}
+
+void libere_entree(Entree * entree){
+  free(entree);
+}
+
+void libere_reseau(Reseau * reseau){
+    free(reseau);
 }

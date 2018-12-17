@@ -45,6 +45,10 @@ int initialise_entree(Entree * entree, int nombre_motifs);//guillaume
 
 int initialise_reseau(Reseau * reseau, Entree * entree);//guillaume
 
+void libere_entree(Entree * entree);
+
+void libere_reseau(Reseau * reseau);
+
 float seuil(float tmp);
 
 float sigmoid(float x);
