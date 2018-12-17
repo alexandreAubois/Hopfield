@@ -277,7 +277,7 @@ void apprentissageHebb(Reseau * reseau, int iteration)
 			erreurGlob = 0;
 			erreur = reseau->entree->sortiesDesirees[index_motif][index_neuronne]-reseau->sortie[index_neuronne];
 			//printf("%f\n", erreur);
-			if( fabs(erreur) > 0.2 )
+			if( fabs(erreur) > 0.1 )
 			{
 				for(index_entree=0; index_entree < TAILLE_IMAGE; index_entree++)
 				{
